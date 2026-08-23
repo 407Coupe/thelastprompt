@@ -1,576 +1,781 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Last Prompt | A Murder Mystery for the Age of AI</title>
-<meta name="description" content="The Last Prompt is a premium, face-to-face murder mystery hosted by Matt Ensor across New Zealand. Guests become detectives, work physical evidence, interrogate VERITY AI and commit to a verdict before the truth is revealed." />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Last Prompt — An AI Murder Mystery Experience</title>
+<meta name="description" content="The Last Prompt is a three-act murder mystery experience where guests investigate physical evidence, suspect interviews and a real generative AI called VERITY." />
 
 <style>
- :root{
- --ink:#171614;
- --paper:#f5f0e7;
- --paper-2:#ebe3d7;
- --wine:#651d2f;
- --wine-dark:#42101d;
- --gold:#b68a4e;
- --muted:#6e685f;
- --line:#d7cec0;
- --white:#fffdf9;
- --max:1180px;
- }
+:root{
+  --ink:#181614;
+  --paper:#f4efe6;
+  --paper-deep:#e8dfd1;
+  --wine:#651d2f;
+  --wine-dark:#42121f;
+  --charcoal:#252321;
+  --muted:#6d665f;
+  --line:rgba(24,22,20,.18);
+  --white:#fffdf9;
+  --gold:#a8844f;
+}
 
- *{box-sizing:border-box}
- html{scroll-behavior:smooth}
- body{
- margin:0;
- background:#e9e2d8;
- color:var(--ink);
- font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
- line-height:1.55;
- -webkit-font-smoothing:antialiased;
- }
- body::before,
- body::after{
- content:"";
- position:fixed;
- top:0;
- bottom:0;
- width:1px;
- background:rgba(101,29,47,.22);
- z-index:100;
- pointer-events:none;
- }
- body::before{left:max(16px, calc((100vw - 1480px)/2));}
- body::after{right:max(16px, calc((100vw - 1480px)/2));}
- main,.nav,footer{
- width:min(1480px, calc(100% - 32px));
- margin-left:auto;
- margin-right:auto;
- }
- main{
- background:var(--paper);
- border-left:1px solid rgba(101,29,47,.16);
- border-right:1px solid rgba(101,29,47,.16);
- }
- .nav{
- border-left:1px solid rgba(101,29,47,.16);
- border-right:1px solid rgba(101,29,47,.16);
- }
- footer{
- border-left:1px solid rgba(255,255,255,.08);
- border-right:1px solid rgba(255,255,255,.08);
- }
- a{color:inherit;text-decoration:none}
- .wrap{width:min(var(--max), calc(100% - 48px)); margin:0 auto}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top left, rgba(101,29,47,.08), transparent 34%),
+    linear-gradient(180deg,#f7f2e9 0%,#efe7da 100%);
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.6;
+}
 
- /* NAV */
- .nav{
- position:sticky; top:0; z-index:50;
- background:rgba(245,240,231,.95);
- backdrop-filter:blur(10px);
- border-bottom:1px solid var(--line);
- }
- .nav-inner{
- min-height:74px; display:flex; align-items:center; justify-content:space-between; gap:24px;
- }
- .brand{
- display:flex; align-items:center; gap:15px;
- }
- .brand-mark{
- width:38px;height:38px;border:1px solid var(--wine);border-radius:50%;
- display:grid;place-items:center;font-family:Georgia,serif;color:var(--wine);font-size:18px;
- }
- .brand-text{
- font-family:Georgia, "Times New Roman", serif;
- letter-spacing:.02em;font-size:20px;
- }
- .nav-links{display:flex;gap:24px;align-items:center;font-size:14px;color:#4c4740}
- .nav-links a:hover{color:var(--wine)}
- .button{
- display:inline-flex;align-items:center;justify-content:center;
- min-height:48px;padding:0 22px;border-radius:4px;
- border:1px solid var(--wine);font-weight:700;font-size:14px;
- transition:.2s ease;
- }
- .button:hover{transform:translateY(-1px)}
- .button.primary{background:var(--wine);color:var(--white)}
- .button.secondary{background:transparent;color:var(--wine)}
+a{color:inherit}
+img{max-width:100%;display:block}
 
+.shell{
+  width:min(1180px,calc(100% - 34px));
+  margin:0 auto;
+}
 
- .hero-photo{
- margin-top:30px;border:1px solid var(--line);background:#171614;
- box-shadow:0 22px 60px rgba(41,29,20,.16);overflow:hidden;
- }
- .hero-photo img{display:block;width:100%;height:auto}
-.quote-mark{font-family:Georgia,serif;font-size:42px;line-height:.7;color:var(--wine);margin-bottom:14px}
+.hero{
+  min-height:92vh;
+  display:flex;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
 
- /* HERO */
- .hero{
- position:relative;
- border-bottom:1px solid var(--line);
- overflow:hidden;
- background:
- radial-gradient(circle at 85% 20%, rgba(182,138,78,.12), transparent 28%),
- linear-gradient(180deg,#f8f4ed 0%,#f1eadf 100%);
- }
- .hero::after{
- content:"";
- position:absolute; right:-120px; top:80px;
- width:520px;height:520px;border:1px solid rgba(101,29,47,.14);border-radius:50%;
- box-shadow:0 0 0 70px rgba(101,29,47,.03), 0 0 0 140px rgba(101,29,47,.02);
- }
- .hero-grid{
-    display:grid;
-    grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr);
-    gap:58px;
-    align-items:center;
-    min-height:720px;
-    padding:72px 0 82px;
-  }
- .eyebrow{
- text-transform:uppercase;letter-spacing:.22em;font-size:12px;font-weight:800;color:var(--wine);
- margin-bottom:22px;
- }
- h1,h2,h3{font-family:Georgia, "Times New Roman", serif;font-weight:500;margin:0}
- h1{
- font-size:clamp(58px,8vw,106px);line-height:.9;letter-spacing:-.045em;
- max-width:760px;
- }
- .hero-sub{
- margin:26px 0 22px;
- font-family:Georgia, "Times New Roman", serif;
- font-size:clamp(25px,3vw,38px);
- color:var(--wine);
- }
- .hero-copy{
- max-width:700px;font-size:20px;color:#3f3a34;margin-bottom:28px;
- }
- .hero-copy strong{font-weight:800}
- .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
- .hero-note{
- margin-top:26px;font-size:14px;color:var(--muted);
- }
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(24,22,20,.035) 1px,transparent 1px),
+    linear-gradient(rgba(24,22,20,.035) 1px,transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(to bottom,black,transparent 88%);
+  pointer-events:none;
+}
 
- .invite-card{
-    position:relative;
-    z-index:2;
-    background:var(--white);
-    border:1px solid #d6ccbe;
-    box-shadow:0 24px 60px rgba(63,44,26,.14);
-    padding:42px 38px 38px;
-    transform:rotate(.35deg);
-  }
- .invite-rule{height:1px;background:var(--line);margin:20px 0 24px}
- .invite-kicker{
- font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--wine);font-weight:800
- }
- .invite-card h3{font-size:42px;line-height:1.02;margin:10px 0 18px}
- .invite-card p{color:#565048;font-size:16px;margin:0 0 16px}
- .invite-list{
- display:grid;gap:11px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)
- }
- .invite-list div{display:flex;justify-content:space-between;gap:18px;font-size:14px}
- .invite-list span:first-child{color:var(--muted)}
- .seal{
- width:78px;height:78px;border-radius:50%;background:var(--wine);color:white;
- display:grid;place-items:center;font-family:Georgia,serif;font-size:20px;
- position:absolute;right:28px;bottom:-28px;box-shadow:0 8px 22px rgba(66,16,29,.22)
- }
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.18fr .82fr;
+  gap:64px;
+  align-items:center;
+  padding:96px 0 78px;
+  position:relative;
+  z-index:1;
+}
 
- /* GENERAL */
- section{padding:92px 0;border-bottom:1px solid rgba(101,29,47,.08)}
- .section-kicker{
- text-transform:uppercase;letter-spacing:.19em;font-size:11px;font-weight:800;color:var(--wine);margin-bottom:16px
- }
- .section-title{
- font-size:clamp(38px,5vw,64px);line-height:1.02;letter-spacing:-.03em;max-width:900px
- }
- .lead{font-size:20px;color:#4e4942;max-width:820px;margin:22px 0 0}
- .rule{height:1px;background:var(--line);margin:44px 0}
+.eyebrow{
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-size:12px;
+  font-weight:800;
+  color:var(--wine);
+  margin-bottom:18px;
+}
 
- /* EXPERIENCE */
- .experience-grid{
- display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:42px
- }
- .exp{
- border-top:3px solid var(--wine);
- padding:24px 0 6px;
- }
- .exp-num{font-size:11px;color:var(--gold);letter-spacing:.15em;font-weight:800;margin-bottom:14px}
- .exp h3{font-size:29px;margin-bottom:12px}
- .exp p{color:#5d574f;margin:0}
+h1,h2,h3,.serif{
+  font-family:Georgia,"Times New Roman",serif;
+}
 
- /* DINNER FIRST */
- .split{
- display:grid;grid-template-columns:1fr 1fr;gap:62px;align-items:start
- }
- .physical-box{
- background:var(--wine-dark);color:var(--white);padding:40px;border-radius:2px;
- box-shadow:0 20px 50px rgba(66,16,29,.18)
- }
- .physical-box h3{font-size:34px;margin-bottom:16px}
- .physical-box p{color:#eadfdc}
- .physical-list{display:grid;gap:12px;margin-top:22px}
- .physical-list div{
- padding:14px 0;border-top:1px solid rgba(255,255,255,.16);font-size:15px
- }
- .physical-list div::before{content:"•";color:#d7b47e;margin-right:10px}
+h1{
+  font-size:clamp(58px,8vw,112px);
+  line-height:.9;
+  letter-spacing:-.055em;
+  margin:0;
+  font-weight:500;
+}
 
- /* AI ROLE */
- .ai-band{
- background:#1a1816;color:var(--white);
- border-top:1px solid #2b2722;border-bottom:1px solid #2b2722
- }
- .ai-grid{
- display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center
- }
- .ai-grid .section-kicker{color:#d7b47e}
- .ai-grid .section-title{color:white}
- .ai-grid .lead{color:#c9c2b9}
- .oracle{
- background:#11100f;border:1px solid #3c3833;padding:30px 30px 26px;
- font-family:"SFMono-Regular",Consolas,monospace;box-shadow:0 18px 60px rgba(0,0,0,.28)
- }
- .oracle small{display:block;color:#8e887f;letter-spacing:.14em;margin-bottom:24px}
- .oracle .status{color:#d7b47e;margin-bottom:18px;font-size:13px}
- .oracle .q{color:white;font-size:18px;margin-bottom:18px}
- .oracle .a{color:#cac3ba;font-size:14px}
- .oracle .alert{
- margin-top:28px;padding-top:20px;border-top:1px solid #3a3530;color:#d77878;font-size:13px
- }
+.hero-sub{
+  max-width:780px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(24px,3vw,37px);
+  line-height:1.18;
+  margin:28px 0 24px;
+}
 
- /* HOST */
- .host-grid{
- display:grid;grid-template-columns:.72fr 1.28fr;gap:54px;align-items:center
- }
- .host-card{
- border:1px solid var(--line);padding:34px;background:#efe7db
- }
- .host-card .name{font-family:Georgia,serif;font-size:38px;margin-bottom:8px}
- .host-card .role{color:var(--wine);font-weight:700;margin-bottom:20px}
- .host-card p{color:#5b554d;margin:0}
- .host-copy p{font-size:19px;color:#4d4841}
- .host-copy strong{color:var(--ink)}
+.hero-copy{
+  max-width:720px;
+  font-size:18px;
+  color:#4c4742;
+}
 
- /* CORPORATE */
- .cards{
- display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px
- }
- .card{
- background:#faf7f1;border:1px solid var(--line);padding:30px;min-height:230px
- }
- .card .mini{
- text-transform:uppercase;letter-spacing:.16em;font-size:10px;font-weight:800;color:var(--wine);margin-bottom:12px
- }
- .card h3{font-size:29px;margin-bottom:12px}
- .card p{color:#5f5951;margin:0}
+.hero-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:34px;
+}
 
- /* CTA */
- .cta{
- background:var(--wine);color:white
- }
- .cta-grid{display:grid;grid-template-columns:1.4fr .6fr;gap:40px;align-items:end}
- .cta h2{font-size:clamp(42px,6vw,72px);line-height:1}
- .cta p{color:#eadfdc;font-size:19px;max-width:760px;margin:20px 0 0}
- .cta .button.primary{background:white;color:var(--wine);border-color:white}
- .cta .button.secondary{color:white;border-color:rgba(255,255,255,.55)}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:13px 18px;
+  text-decoration:none;
+  border:1px solid var(--ink);
+  font-weight:750;
+  font-size:14px;
+  letter-spacing:.02em;
+  transition:.2s ease;
+}
 
- footer{
- padding:34px 0;background:#13110f;color:#aaa199;font-size:13px
- }
- .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.btn.primary{
+  background:var(--wine);
+  border-color:var(--wine);
+  color:white;
+}
 
- @media(max-width:980px){
-    .hero-grid{grid-template-columns:1fr;gap:34px;min-height:auto;padding:62px 0 70px}
-    .invite-card{transform:none;max-width:680px}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary:hover{background:var(--wine-dark)}
 
- .nav-links a:not(.nav-cta){display:none}
- .hero-grid,.split,.ai-grid,.host-grid,.cta-grid{grid-template-columns:1fr}
- .hero-grid{gap:34px;min-height:auto;padding:70px 0}
- .invite-card{transform:none}
- .experience-grid,.cards{grid-template-columns:1fr}
- .hero::after{display:none}
- }
+.case-card{
+  background:rgba(255,253,249,.78);
+  border:1px solid rgba(24,22,20,.16);
+  box-shadow:0 24px 70px rgba(52,37,28,.12);
+  padding:28px;
+  transform:rotate(1.2deg);
+}
 
- @media(max-width:640px){
- body::before{left:6px}
- body::after{right:6px}
- main,.nav,footer{width:calc(100% - 12px)}
+.case-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--line);
+}
 
- .wrap{width:min(var(--max),calc(100% - 28px))}
- .nav-inner{min-height:64px}
- .brand-text{font-size:17px}
- .hero-grid{padding:54px 0 70px}
- section{padding:72px 0}
- .invite-card{padding:30px 24px}
- .button{width:100%}
- }
+.case-stamp{
+  border:2px solid var(--wine);
+  color:var(--wine);
+  padding:6px 10px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  transform:rotate(-4deg);
+}
+
+.case-card h3{
+  margin:18px 0 6px;
+  font-size:31px;
+  line-height:1.08;
+}
+
+.case-card p{
+  margin:0;
+  color:#514b44;
+}
+
+.case-meta{
+  margin-top:22px;
+  display:grid;
+  gap:10px;
+  font-family:"Courier New",monospace;
+  font-size:13px;
+}
+
+.case-meta div{
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px dashed rgba(24,22,20,.17);
+  padding-bottom:7px;
+}
+
+section{
+  padding:88px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.section-kicker{
+  text-transform:uppercase;
+  letter-spacing:.15em;
+  color:var(--wine);
+  font-size:12px;
+  font-weight:850;
+  margin-bottom:12px;
+}
+
+h2{
+  font-size:clamp(38px,5vw,66px);
+  line-height:1;
+  margin:0 0 24px;
+  letter-spacing:-.035em;
+  font-weight:500;
+}
+
+.lead{
+  font-size:20px;
+  max-width:820px;
+  color:#4f4943;
+}
+
+.premise-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:54px;
+  align-items:start;
+}
+
+.pullquote{
+  border-left:3px solid var(--wine);
+  padding:4px 0 4px 24px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:29px;
+  line-height:1.25;
+  color:var(--wine-dark);
+}
+
+.three-columns{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:38px;
+}
+
+.feature{
+  padding:24px;
+  background:rgba(255,255,255,.46);
+  border:1px solid rgba(24,22,20,.13);
+  min-height:220px;
+}
+
+.feature-number{
+  font-size:12px;
+  letter-spacing:.13em;
+  font-weight:900;
+  color:var(--wine);
+  text-transform:uppercase;
+}
+
+.feature h3{
+  font-size:27px;
+  margin:12px 0 10px;
+}
+
+.feature p{
+  margin:0;
+  color:#555049;
+}
+
+.dark{
+  background:#1f1d1b;
+  color:#f6f0e7;
+}
+
+.dark .section-kicker{color:#d0ac71}
+.dark h2{color:#fffaf2}
+.dark .lead,.dark p{color:#cfc7bd}
+.dark .feature{
+  background:rgba(255,255,255,.035);
+  border-color:rgba(255,255,255,.13);
+}
+.dark .feature-number{color:#d0ac71}
+.dark .feature h3{color:#fffaf2}
+
+.verity-panel{
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:48px;
+  align-items:start;
+}
+
+.chat{
+  background:#11100f;
+  border:1px solid rgba(255,255,255,.14);
+  padding:22px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  box-shadow:0 22px 70px rgba(0,0,0,.25);
+}
+
+.chat-title{
+  color:#d0ac71;
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+
+.msg{
+  margin:0 0 16px;
+  padding:13px 14px;
+  border-left:2px solid rgba(255,255,255,.2);
+}
+
+.msg.user{
+  background:rgba(255,255,255,.06);
+  color:#fff;
+}
+
+.msg.ai{
+  background:rgba(208,172,113,.08);
+  border-left-color:#d0ac71;
+  color:#eee5db;
+}
+
+.ai-label,.user-label{
+  display:block;
+  margin-bottom:5px;
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  opacity:.68;
+}
+
+.rule{
+  margin-top:30px;
+  border-top:1px solid rgba(255,255,255,.14);
+  padding-top:18px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:24px;
+  color:#fffaf2;
+}
+
+.acts{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:42px;
+}
+
+.act{
+  position:relative;
+  padding:28px;
+  border:1px solid rgba(24,22,20,.16);
+  background:rgba(255,253,249,.58);
+}
+
+.act-tag{
+  font-weight:900;
+  color:var(--wine);
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.act h3{
+  font-size:31px;
+  margin:10px 0 6px;
+}
+
+.act .course{
+  color:var(--muted);
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-weight:800;
+  margin-bottom:14px;
+}
+
+.act p{color:#4f4943}
+
+.evidence-list{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-top:32px;
+}
+
+.evidence{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  border-top:1px solid var(--line);
+  padding-top:15px;
+}
+
+.evidence strong{
+  display:block;
+  margin-bottom:3px;
+}
+
+.evidence-icon{
+  width:34px;
+  height:34px;
+  border:1px solid rgba(101,29,47,.3);
+  display:grid;
+  place-items:center;
+  color:var(--wine);
+  flex:0 0 34px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:700;
+}
+
+.interview-panel{
+  background:var(--white);
+  border:1px solid rgba(24,22,20,.14);
+  padding:32px;
+  margin-top:36px;
+  box-shadow:0 20px 50px rgba(54,39,29,.08);
+}
+
+.transcript{
+  font-family:"Courier New",monospace;
+  font-size:14px;
+  background:#f0eadf;
+  padding:20px;
+  border-left:4px solid var(--wine);
+  margin-top:18px;
+}
+
+.transcript p{margin:0 0 13px}
+
+.architect-strip{
+  margin-top:38px;
+  max-width:820px;
+  padding:20px 22px;
+  border-left:3px solid var(--wine);
+  background:rgba(255,255,255,.56);
+  box-shadow:inset 0 0 0 1px rgba(101,29,47,.05);
+}
+
+.architect-title{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:25px;
+  line-height:1.2;
+  margin-bottom:7px;
+}
+
+.architect-copy{
+  font-size:15px;
+  color:#514b44;
+  line-height:1.55;
+}
+
+.final-question{
+  max-width:900px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.final-question .big{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(38px,6vw,76px);
+  line-height:1.04;
+  margin:22px 0;
+  color:var(--wine);
+}
+
+.final-question p{
+  max-width:720px;
+  margin:0 auto;
+  color:#514b44;
+  font-size:18px;
+}
+
+footer{
+  padding:42px 0 54px;
+  color:#6b655f;
+  font-size:13px;
+}
+
+footer .shell{
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+}
+
+@media (max-width:900px){
+  .hero-grid,.premise-grid,.verity-panel{grid-template-columns:1fr}
+  .three-columns,.acts{grid-template-columns:1fr}
+  .evidence-list{grid-template-columns:1fr}
+  .hero{min-height:auto}
+  .case-card{transform:none}
+}
+
+@media (max-width:560px){
+  .shell{width:min(100% - 24px,1180px)}
+  section{padding:64px 0}
+  .hero-grid{padding:68px 0 52px;gap:38px}
+  .hero-sub{font-size:26px}
+  .hero-copy,.lead{font-size:17px}
+  .case-card,.feature,.act,.interview-panel{padding:20px}
+}
 </style>
 </head>
 
 <body>
-<header class="nav">
- <div class="wrap nav-inner">
- <a class="brand" href="#top">
- <div class="brand-mark">LP</div>
- <div class="brand-text">The Last Prompt</div>
- </a>
- <nav class="nav-links">
- <a href="#experience">How it works</a>
- <a href="#ai">The AI</a>
- 
- <a href="#formats">Formats</a>
- <a class="button primary nav-cta" href="mailto:matt@mattensor.ai?subject=The%20Last%20Prompt%20enquiry">Enquire</a>
- </nav>
- </div>
-</header>
 
-<main id="top">
-
-
-<section class="hero">
-  <div class="wrap hero-grid">
+<header class="hero">
+  <div class="shell hero-grid">
     <div>
-      <div class="eyebrow">A hosted murder mystery for the age of AI</div>
-
-      <h1>The Last Prompt</h1>
-
-      <div class="hero-sub">Trust nobody. Especially the AI.</div>
-
-      <div class="hero-premise">
-        Tomorrow, a technology company will launch VERITY, a transformative new AI built on one of the most powerful models in the world.
-        <br><br>
-        Tonight, its founder is hosting one final private dinner.
-        <br><br>
-        <strong>He will not survive the evening.</strong>
+      <div class="eyebrow">A murder mystery for the age of AI</div>
+      <h1>The Last<br>Prompt</h1>
+      <div class="hero-sub">
+        The founder is dead. The launch is tomorrow. And the most powerful witness in the room may not understand what it knows.
       </div>
-
-      <div class="hero-copy">
-        Your guests become detectives. Over entrée, main and dessert, fresh physical evidence lands on the table, witnesses are questioned, theories are tested and VERITY is interrogated live.
-      </div>
-
-      <div class="hero-copy">
-        VERITY is real generative AI. It can search the case, compare evidence, answer follow up questions and reveal information no printed clue contains. It is also fluent, persuasive and fallible in the same ways real generative AI can be.
-      </div>
-
+      <p class="hero-copy">
+        Over three courses, you and your table become the detectives. Examine physical evidence. Search suspect interviews. Test theories. Ask a real generative AI anything you want. Then decide what actually happened.
+      </p>
       <div class="hero-actions">
-        <a class="button primary" href="mailto:matt@mattensor.ai?subject=The%20Last%20Prompt%20event%20enquiry">Enquire about an event</a>
-        <a class="button secondary" href="#experience">How it works</a>
-      </div>
-
-      <div class="hero-note">
-        Created and hosted in person by <strong>Matt Ensor, The AI Architect</strong> · Events across New Zealand
-      </div>
-
-      <div class="architect-strip">
-        <div class="architect-title">Created by Matt Ensor</div>
-        <div class="architect-copy">
-          Matt combines deep generative AI expertise with an engaging, theatrical hosting style to control the case, the evidence, the pace and VERITY itself.
-        </div>
+        <a class="btn primary" href="#case">Enter the case</a>
+        <a class="btn" href="#verity">Meet VERITY</a>
       </div>
     </div>
 
-    <div class="invite-card">
-      <div class="invite-kicker">Private invitation</div>
-      <h3>The night before<br>everything changes.</h3>
-      <div class="invite-rule"></div>
+    <aside class="case-card" aria-label="Case file">
+      <div class="case-top">
+        <div>
+          <div class="eyebrow" style="margin:0 0 5px">Case File</div>
+          <strong>VERITY / PRE-LAUNCH DINNER</strong>
+        </div>
+        <div class="case-stamp">Restricted</div>
+      </div>
+      <h3>One victim.<br>Six suspects.<br>One AI witness.</h3>
+      <p>
+        Dr Adrian Vale was due to unveil VERITY to the world tomorrow morning. Tonight, he has been found murdered.
+      </p>
+      <div class="case-meta">
+        <div><span>STATUS</span><strong>OPEN</strong></div>
+        <div><span>INVESTIGATORS</span><strong>YOU</strong></div>
+        <div><span>EVIDENCE RELEASES</span><strong>3</strong></div>
+        <div><span>VERITY ACCESS</span><strong>LIVE</strong></div>
+      </div>
+    </aside>
+  </div>
+</header>
 
-      <p>Tomorrow, VERITY is unveiled to the world.</p>
+<main>
 
-      <p>Tonight, you are invited to the founder’s private dinner on the eve of the launch.</p>
+<section id="case">
+  <div class="shell premise-grid">
+    <div>
+      <div class="section-kicker">The premise</div>
+      <h2>Tomorrow changes everything. Tonight changes first.</h2>
+      <p class="lead">
+        VERITY is a transformative artificial intelligence built on one of the world’s most powerful generative AI models. On the eve of its launch, a private dinner brings together the people closest to the project.
+      </p>
+      <p>
+        Before the evening is over, the company’s founder is dead. Everyone around him had a reason to fear what tomorrow might bring. Some are lying. Some are hiding things. Only one committed murder.
+      </p>
+    </div>
+    <div class="pullquote">
+      You are not playing a character.<br><br>
+      You are investigating a murder.
+    </div>
+  </div>
 
-      <p class="invite-murder">He will not survive the evening.</p>
-
-      <p>Across entrée, main and dessert, new evidence arrives at your table. Open the files. Examine the clues. Question the witnesses. Interrogate VERITY.</p>
-
-      <p>Work together around one table, or compete against other tables to crack the case.</p>
-
-      <div class="invite-rule"></div>
-      <p class="invite-question">Can your table solve the murder before the truth is revealed?</p>
-
-      <div class="seal">?</div>
+  <div class="shell three-columns">
+    <div class="feature">
+      <div class="feature-number">01 · Examine</div>
+      <h3>Physical evidence</h3>
+      <p>Crime-scene photographs, handwritten notes, emails, records, reports and sealed evidence packs appear throughout the evening.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-number">02 · Investigate</div>
+      <h3>Suspect interviews</h3>
+      <p>Six formal interviews contain alibis, grudges, evasions, contradictions and secrets. Read them yourself or ask VERITY to search and compare them.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-number">03 · Interrogate</div>
+      <h3>VERITY</h3>
+      <p>Ask a real generative AI about the case. Build timelines. Compare testimony. Test theories. Request sources. Or ask for a hint when your table gets stuck.</p>
     </div>
   </div>
 </section>
 
+<section class="dark" id="verity">
+  <div class="shell verity-panel">
+    <div>
+      <div class="section-kicker">The AI witness</div>
+      <h2>Ask VERITY anything.</h2>
+      <p class="lead">
+        VERITY is not a scripted chatbot. It is a functioning generative AI with access to the fictional world of the case.
+      </p>
+      <p>
+        It can search suspect interviews, compare documents, identify contradictions, reconstruct events and challenge your theory. It may know things that are not obvious in the physical evidence.
+      </p>
+      <p>
+        But VERITY is not omniscient. It reasons from the information available to it. It can make assumptions. It can be overconfident. And the way you frame a question can change the answer you receive.
+      </p>
+      <div class="rule">
+        VERITY’s answer is not the evidence.<br>
+        Its sources are.
+      </div>
+    </div>
 
-<section id="experience">
- <div class="wrap">
- <div class="section-kicker">How it works</div>
- <h2 class="section-title">Three acts. Three evidence drops. One verdict.</h2>
- <p class="lead">The investigation unfolds around the table over hosted live by Matt Ensor.</p>
+    <div class="chat">
+      <div class="chat-title">VERITY / CASE INTERFACE</div>
 
- <div class="experience-grid">
- <div class="exp">
- <div class="exp-num">01</div>
- <h3>Act I , Entrée</h3>
- <p>The case opens with the first sealed evidence pack: documents, photographs, witness material and the first chance to question VERITY.</p>
- </div>
- <div class="exp">
- <div class="exp-num">02</div>
- <h3>Act II , Main</h3>
- <p>A second physical evidence drop changes the shape of the case. New records, objects or testimony expose contradictions and open deeper lines of questioning for VERITY.</p>
- </div>
- <div class="exp">
- <div class="exp-num">03</div>
- <h3>Act III , Dessert</h3>
- <p>The final evidence arrives. Tables test their theory against the complete case, challenge VERITY, resolve conflicts and prepare a verdict.</p>
- </div>
- <div class="exp">
- <div class="exp-num">04</div>
- <h3>The reveal</h3>
- <p>Your table names the murderer, motive and method before the final reconstruction reveals what really happened.</p>
- </div>
- </div>
- </div>
+      <div class="msg user">
+        <span class="user-label">Detective</span>
+        Which suspect had the strongest motive to stop tomorrow’s launch?
+      </div>
+
+      <div class="msg ai">
+        <span class="ai-label">VERITY</span>
+        Based on the interviews and company records, Mara Chen appears to have the most obvious professional and financial reasons to fear a delay.
+      </div>
+
+      <div class="msg user">
+        <span class="user-label">Detective</span>
+        That tells me who had the most obvious motive. Who had the most to lose personally?
+      </div>
+
+      <div class="msg ai">
+        <span class="ai-label">VERITY</span>
+        That is a different question. Several suspects describe consequences that are not primarily financial. Would you like me to compare what each person stood to lose?
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="acts">
+  <div class="shell">
+    <div class="section-kicker">Three courses. Three evidence releases.</div>
+    <h2>The case changes as the evening unfolds.</h2>
+    <p class="lead">
+      Every act adds new physical evidence and gives you new reasons to revisit what you thought you knew.
+    </p>
+
+    <div class="acts">
+      <article class="act">
+        <div class="act-tag">Act I</div>
+        <h3>The Murder</h3>
+        <div class="course">Entrée</div>
+        <p>
+          Meet the suspects. Examine the crime scene. Explore relationships, motives and movements. Begin building your first theory of what happened.
+        </p>
+      </article>
+
+      <article class="act">
+        <div class="act-tag">Act II</div>
+        <h3>The Case</h3>
+        <div class="course">Main</div>
+        <p>
+          New records, private testimony and concealed evidence appear. Compare stories, challenge inconsistencies and decide which details really matter.
+        </p>
+      </article>
+
+      <article class="act">
+        <div class="act-tag">Act III</div>
+        <h3>The Last Prompt</h3>
+        <div class="course">Dessert</div>
+        <p>
+          The final evidence is released. Revisit earlier clues, test your theory against the full case and decide whether you are ready to make an accusation.
+        </p>
+      </article>
+    </div>
+  </div>
 </section>
 
 <section>
- <div class="wrap split">
- <div>
- <div class="section-kicker">Physical-first</div>
- <h2 class="section-title">Every act puts new evidence on the table.</h2>
- <p class="lead">At entrée, main and dessert, a new physical evidence pack is released: printed records, sealed envelopes, photographs, handwritten notes, witness material and objects that move the investigation forward.</p>
- </div>
- <div class="physical-box">
- <h3>VERITY gives the evidence a voice.</h3>
- <p>Guests use their phones to interrogate VERITY, test their theories and discover information only the AI knows, while the investigation unfolds face to face around the table.</p>
- <div class="physical-list">
- <div>Ask broad questions or precise ones</div>
- <div>Request the underlying source</div>
- <div>Test competing theories</div>
- <div>Compare VERITY with the physical evidence</div>
- </div>
- </div>
- </div>
+  <div class="shell">
+    <div class="section-kicker">Your evidence</div>
+    <h2>The case exists beyond the screen.</h2>
+    <p class="lead">
+      VERITY complements the investigation. It does not replace it. The table is filled with tangible evidence that can be handled, compared, marked up and argued over.
+    </p>
+
+    <div class="evidence-list">
+      <div class="evidence">
+        <div class="evidence-icon">01</div>
+        <div><strong>Crime-scene material</strong><span>Photographs, scene records, objects and observations.</span></div>
+      </div>
+      <div class="evidence">
+        <div class="evidence-icon">02</div>
+        <div><strong>Suspect interviews</strong><span>Full testimony containing truths, evasions, lies and overlooked details.</span></div>
+      </div>
+      <div class="evidence">
+        <div class="evidence-icon">03</div>
+        <div><strong>Corporate records</strong><span>Emails, meeting notes, access records and documents connected to VERITY’s launch.</span></div>
+      </div>
+      <div class="evidence">
+        <div class="evidence-icon">04</div>
+        <div><strong>Private material</strong><span>Handwritten notes, confidential communications and information people never expected you to see.</span></div>
+      </div>
+    </div>
+
+    <div class="interview-panel">
+      <div class="section-kicker">Suspect interview transcripts</div>
+      <h3 style="font-size:32px;margin:0">The suspects have already been interviewed. VERITY lets you interrogate the testimony.</h3>
+      <div class="transcript">
+        <p><strong>DETECTIVE:</strong> What did the suspects say about Adrian’s leadership style?</p>
+        <p><strong>VERITY:</strong> Their accounts differ considerably. Mara Chen described him as “brilliant, difficult, usually both before breakfast.” Two others emphasised his impatience, while one described him as unusually loyal to people he trusted.</p>
+        <p><strong>DETECTIVE:</strong> Show me the original passages.</p>
+        <p><strong>VERITY:</strong> Certainly. I can take you to each relevant section of the interview transcripts.</p>
+      </div>
+      <p style="margin-top:18px">
+        The full suspect interviews remain part of the physical case file. VERITY can search across them, compare accounts, find contradictions and point you back to the exact source material.
+      </p>
+    </div>
+  </div>
 </section>
 
+<section class="dark">
+  <div class="shell">
+    <div class="section-kicker">When you get stuck</div>
+    <h2>VERITY can help. At a price.</h2>
+    <p class="lead">
+      Every table can ask VERITY for a hint. A gentle nudge costs little. A rescue clue costs more. You can always keep investigating for free.
+    </p>
 
-<section class="ai-band" id="ai">
- <div class="wrap ai-grid">
- <div>
- <div class="section-kicker">Meet VERITY</div>
- <h2 class="section-title">VERITY seems to know everything.</h2>
- <p class="lead">
- VERITY is real generative AI, built on one of the most powerful AI models in the world and connected directly to the case records. Ask it anything. Follow up. Test a theory. Request the source. Make it compare testimony with documents and reason across the evidence released in each act.
- </p>
- <p class="lead">
- VERITY behaves like generative AI really does. It can be astonishingly capable, fluent and persuasive. It can also be incomplete, overconfident, overly agreeable or wrong. The way you question it can change what you discover.
- </p>
- <p class="lead">
- The mystery is learning how much weight to give it.
- </p>
- </div>
-
- <div class="oracle">
- <small>VERITY // CASE ACCESS</small>
- <div class="status">READY</div>
- <div class="q">Q: Who had the strongest opportunity to alter the server-room record?</div>
- <div class="a">A: Three suspects had relevant access. I can rank them by opportunity, show the source records, or compare this with their witness statements.</div>
- <div class="alert" style="color:#a9a39b">
- WHAT WILL YOU ASK NEXT?
- </div>
- </div>
- </div>
+    <div class="three-columns">
+      <div class="feature">
+        <div class="feature-number">Nudge</div>
+        <h3>Look differently</h3>
+        <p>VERITY points towards an area of the evidence you may have overlooked without telling you what it means.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-number">Hint</div>
+        <h3>Ask differently</h3>
+        <p>VERITY suggests a line of inquiry or a better question that could move your investigation forward.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-number">Rescue</div>
+        <h3>Break the deadlock</h3>
+        <p>If your table is completely stuck, VERITY can expose a crucial distinction while leaving the final deduction to you.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
+<section>
+  <div class="shell">
+    <div class="section-kicker">The host</div>
+    <h2>The AI Architect controls the room.</h2>
+    <p class="lead">
+      Matt Ensor hosts the experience as <strong>The AI Architect</strong>, controlling the pacing, evidence releases, testimony, VERITY and the final reveal.
+    </p>
 
-<section id="formats">
- <div class="wrap">
- <div class="section-kicker">One case. One table or many.</div>
- <h2 class="section-title">Turn the room into rival detective teams.</h2>
- <p class="lead">
- The Last Prompt works around a single table of , or across multiple tables at the same event. Every table receives the same staged evidence drops over entrée, main and dessert, interrogates VERITY, builds its own theory and submits a verdict.
- </p>
- <div class="cards">
- <div class="card">
- <div class="mini">One table</div>
- <h3>One table</h3>
- <p>A close, intense investigation where every new exhibit can change the table's theory.</p>
- </div>
- <div class="card">
- <div class="mini">Multiple tables</div>
- <h3>Compete to solve the murder</h3>
- <p>Each table becomes its own detective team, racing the others to identify the murderer, motive and method before the final reveal.</p>
- </div>
- <div class="card">
- <div class="mini">Bespoke</div>
- <h3>A case created for your event</h3>
- <p>The setting, suspects, evidence and story can be created specifically for the occasion.</p>
- </div>
- </div>
- </div>
+    <div class="architect-strip">
+      <div class="architect-title">You do not need to understand AI to solve the case.</div>
+      <div class="architect-copy">
+        Treat VERITY as another witness. It has an extraordinary memory. It has access to information you do not. It can make connections you may miss. But like any witness, think carefully about what you ask it — and whether its answer actually proves what you think it proves.
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="cta">
- <div class="wrap cta-grid">
- <div>
- <div class="section-kicker" style="color:#e3c598">The Last Prompt</div>
- <h2>Does VERITY know who the murderer is?</h2>
- <p>
- Perhaps. The harder question is whether it is helping you find the truth, simply behaving like generative AI , or whether VERITY itself has become part of the mystery.
- </p>
- </div>
- <div class="hero-actions">
- <a class="button primary" href="mailto:matt@mattensor.ai?subject=The%20Last%20Prompt%20event%20enquiry">Enquire about an event</a>
- <a class="button secondary" href="mailto:matt@mattensor.ai?subject=Tell%20me%20more%20about%20The%20Last%20Prompt">Find out more</a>
- </div>
- </div>
+<section>
+  <div class="shell final-question">
+    <div class="section-kicker">Before the final reveal</div>
+    <div class="big">Who killed Adrian Vale?</div>
+    <p>
+      Your table must name the killer, reconstruct when the murder really happened, explain how the evidence was made to tell the wrong story, and identify the assumption that led everyone astray.
+    </p>
+    <div class="hero-actions" style="justify-content:center">
+      <a class="btn primary" href="#case">Review the case</a>
+    </div>
+  </div>
 </section>
 
 </main>
 
 <footer>
- <div class="wrap footer-inner">
- <div>© 2026 The Last Prompt</div>
- <div>Hosted by Matt Ensor, The Architect · Events across New Zealand</div>
- </div>
+  <div class="shell">
+    <div>THE LAST PROMPT</div>
+    <div>An AI murder mystery experience</div>
+  </div>
 </footer>
 
 </body>
 </html>
-  .hero-premise{
-    max-width:760px;
-    margin:26px 0 24px;
-    font-family:Georgia,"Times New Roman",serif;
-    font-size:clamp(24px,2.5vw,34px);
-    line-height:1.28;
-    color:#2f2a25;
-  }
-  .hero-premise strong{color:var(--wine)}
-  .architect-strip{
-    margin-top:24px;
-    max-width:760px;
-    padding:18px 20px;
-    border-left:3px solid var(--wine);
-    background:rgba(255,255,255,.48);
-  }
-  .architect-title{
-    font-family:Georgia,"Times New Roman",serif;
-    font-size:22px;
-    line-height:1.2;
-    margin-bottom:6px;
-  }
-  .architect-copy{
-    font-size:15px;
-    color:#514b44;
-    line-height:1.5;
-  }
-  .invite-murder{
-    font-family:Georgia,"Times New Roman",serif;
-    font-size:23px!important;
-    line-height:1.28;
-    color:var(--wine)!important;
-    margin:22px 0!important;
-    font-weight:700;
-  }
-  .invite-question{
-    font-family:Georgia,"Times New Roman",serif;
-    font-size:21px!important;
-    line-height:1.35;
-    color:var(--wine)!important;
-    margin-bottom:0!important;
-    font-weight:700;
-  }
-
